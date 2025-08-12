@@ -17,7 +17,7 @@ cp .env.example .env
 nano .env
 
 # Run the dev server
-poetry run uvicorn main:app --reload
+python3 main.py
 ```
 
 ## Deployment
@@ -25,6 +25,6 @@ poetry run uvicorn main:app --reload
 Build the docker image
 
 ```bash
-docker build -t alabate/ics-sync-server:latest .
-docker push alabate/ics-sync-server:latest
+docker build -t ghcr.io/alabate/ics-sync-server:latest .
+docker push ghcr.io/alabate/ics-sync-server:latest
 ```
