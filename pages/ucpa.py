@@ -8,7 +8,7 @@ import base64
 import json
 
 
-def get_oauth2_cookie():
+def get_oauth2_cookie(user_id: int):
     """
     We first need to get an OAuth2 cookie to access the UCPA API.
 
@@ -19,15 +19,15 @@ def get_oauth2_cookie():
     CSRF token from the login page, then we can perform the login.
     """
     # Get credentials from environment variables
-    username = os.getenv("UCPA_USERNAME")
-    password = os.getenv("UCPA_PASSWORD")
+    username = os.getenv(f"UCPA_USERNAME_{user_id}")
+    password = os.getenv(f"UCPA_PASSWORD_{user_id}")
     assert (
         username and password
-    ), "Missing UCPA_USERNAME or UCPA_PASSWORD environment variables."
+    ), f"Missing UCPA_USERNAME_{user_id} or UCPA_PASSWORD_{user_id} environment variables."
 
     # Create the auth url that will be used for the two steps
     login_params = {
-        "client_id": "15qf9khc3hb392j10im7t1179f", 
+        "client_id": "15qf9khc3hb392j10im7t1179f",
         "redirect_uri": "https://www.ucpa.com/sport-station/espacepersonnel/af/authorize",
         "response_type": "code",
         "scope": "openid profile email phone",
@@ -142,8 +142,8 @@ def convert_reservations_to_ics(data) -> str:
     return calendar.serialize()
 
 
-def get_content() -> bytes:
-    oauth2_cookie = get_oauth2_cookie()
+def get_content(user_id: int) -> bytes:
+    oauth2_cookie = get_oauth2_cookie(user_id)
     reservations = get_scheduled_reservations(oauth2_cookie)
     ics = convert_reservations_to_ics(reservations)
     return ics.encode("utf-8")

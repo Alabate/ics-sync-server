@@ -5,6 +5,7 @@ description = "Generate ICS files from other API to fill my personnal calendar a
 authors = ["Aurelien Labate <aurelien@labate.me>"]
 license = "MIT"
 readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.12"

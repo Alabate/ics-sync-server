@@ -21,11 +21,11 @@ def healthcheck():
 def ucpa_ics(url_key):
     """Serve the UCPA reservation calendar ICS file."""
     url_key_response = check_url_key(url_key)
-    if url_key_response:
+    if not isinstance(url_key_response, int):
         return url_key_response
 
     return Response(
-        get_ucpa_ics_content(),
+        get_ucpa_ics_content(url_key_response),
         status=200,
         content_type="text/plain",  # Should be "text/calendar" but it's harder to debug
         headers={"Content-Disposition": "inline; filename=ucpa.ics"},
